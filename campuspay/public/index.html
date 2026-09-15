@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#12203A">
+<title>CampusPay — Bishop Heber College</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- ============ Sign in ============ -->
+<section id="authView" class="auth">
+  <div class="auth-inner">
+    <p class="brandline">Fintech Association · Bishop Heber College</p>
+    <h1 class="wordmark">Campus<span>Pay</span></h1>
+    <p class="auth-sub">One wallet for the canteens, the xerox shop and every fest on campus.</p>
+
+    <div class="tabs" role="tablist">
+      <button class="tab is-on" data-auth="login" role="tab">Sign in</button>
+      <button class="tab" data-auth="register" role="tab">Create account</button>
+    </div>
+
+    <form id="loginForm" class="form">
+      <label>Register number
+        <input name="register_number" inputmode="numeric" maxlength="9" pattern="\d{9}" placeholder="9 digits" required>
+      </label>
+      <label>Password
+        <input name="password" type="password" minlength="6" required>
+      </label>
+      <button class="btn-primary" type="submit">Sign in</button>
+      <p class="hint">Demo account: 231234567 / campus123</p>
+    </form>
+
+    <form id="registerForm" class="form is-hidden">
+      <label>Register number
+        <input name="register_number" inputmode="numeric" maxlength="9" pattern="\d{9}" placeholder="9 digits" required>
+      </label>
+      <label>Full name <input name="name" required></label>
+      <label>Department
+        <select name="department_id" id="deptSelect" required></select>
+      </label>
+      <label>Password <input name="password" type="password" minlength="6" required></label>
+      <button class="btn-primary" type="submit">Create account</button>
+    </form>
+
+    <p id="authError" class="error" role="alert"></p>
+  </div>
+</section>
+
+<!-- ============ App ============ -->
+<main id="appView" class="app is-hidden">
+
+  <header class="topbar">
+    <div>
+      <p class="greeting" id="greeting">Hello</p>
+      <p class="reg" id="regLine"></p>
+    </div>
+    <button id="signOut" class="link-btn">Sign out</button>
+  </header>
+
+  <!-- Home -->
+  <section class="screen" id="screen-home">
+    <div class="balance">
+      <p class="balance-label">Wallet balance</p>
+      <p class="balance-value" id="balanceValue">₹0.00</p>
+      <div class="balance-meta">
+        <span>Round-up savings <b id="savingsValue">₹0.00</b></span>
+        <span>Campus points <b id="pointsValue">0</b></span>
+      </div>
+      <div class="balance-actions">
+        <button class="btn-ghost" data-topup>Add money</button>
+        <button class="btn-ghost" data-withdraw>Move savings out</button>
+      </div>
+    </div>
+
+    <div class="row-head"><h2>Spend by vendor</h2></div>
+    <div id="vendorReport" class="report"></div>
+
+    <div class="row-head"><h2>Recent activity</h2></div>
+    <ul id="txList" class="tx-list"></ul>
+  </section>
+
+  <!-- Pay -->
+  <section class="screen is-hidden" id="screen-pay">
+    <h2 class="screen-title">Pay a vendor</h2>
+    <p class="screen-note">Scan the counter QR, or pick the shop from the list.</p>
+
+    <div class="scanner">
+      <video id="scanVideo" playsinline></video>
+      <div class="scan-frame"></div>
+      <button class="btn-ghost" id="scanToggle">Open camera</button>
+    </div>
+
+    <form id="payForm" class="form">
+      <label>Vendor
+        <select name="vendor_id" id="vendorSelect" required></select>
+      </label>
+      <label>Amount (₹)
+        <input name="amount" type="number" min="1" step="0.5" inputmode="decimal" required>
+      </label>
+      <label>Note (optional) <input name="note" placeholder="Lunch, photocopies…"></label>
+      <button class="btn-primary" type="submit">Pay now</button>
+    </form>
+    <div id="receipt" class="receipt is-hidden"></div>
+  </section>
+
+  <!-- Events -->
+  <section class="screen is-hidden" id="screen-events">
+    <h2 class="screen-title">Events</h2>
+    <div id="eventList" class="event-list"></div>
+  </section>
+
+  <!-- Leaderboard -->
+  <section class="screen is-hidden" id="screen-board">
+    <h2 class="screen-title">Department leaderboard</h2>
+    <p class="screen-note">Every ₹10 spent on campus earns 1 point for your department. Events pay more.</p>
+    <ol id="boardList" class="board"></ol>
+  </section>
+
+  <!-- About -->
+  <section class="screen is-hidden" id="screen-about">
+    <h2 class="screen-title">What CampusPay does</h2>
+    <p class="screen-note">A project of the Fintech Association, Bishop Heber College (Autonomous), Tiruchirappalli — built for about 13,000 students and 2,000 staff across 24 departments.</p>
+    <dl class="about">
+      <dt>Register-number sign-in</dt><dd>Your 9-digit number is your identity. No separate username.</dd>
+      <dt>Campus wallet</dt><dd>Top up once, pay at all five outlets without cash or change.</dd>
+      <dt>Round-up savings</dt><dd>Every payment rounds up to the next ₹10 and the difference lands in a savings pot you can pull back any time.</dd>
+      <dt>QR payments</dt><dd>Point the camera at the counter code, type the amount, done.</dd>
+      <dt>Spend tracker and budgets</dt><dd>See where your money goes by shop and by month, and set a monthly cap.</dd>
+      <dt>Digital receipts</dt><dd>Every payment gets a reference you can pull up later.</dd>
+      <dt>Event registration</dt><dd>Fest and workshop fees come straight out of the wallet, seats update live.</dd>
+      <dt>Department leaderboard</dt><dd>Campus points roll up by department, so the ranking is a department contest, not a spending contest.</dd>
+      <dt>Bank linking</dt><dd>Attach an account or UPI ID for top-ups. Only the last four digits are stored.</dd>
+      <dt>Vendor ratings</dt><dd>Rate an outlet after paying so the shops get real feedback.</dd>
+    </dl>
+  </section>
+
+  <nav class="tabbar">
+    <button class="tabbtn is-on" data-screen="home">Home</button>
+    <button class="tabbtn" data-screen="pay">Pay</button>
+    <button class="tabbtn" data-screen="events">Events</button>
+    <button class="tabbtn" data-screen="board">Ranks</button>
+    <button class="tabbtn" data-screen="about">About</button>
+  </nav>
+</main>
+
+<div id="toast" class="toast" role="status"></div>
+<script src="/app.js"></script>
+</body>
+</html>
